@@ -12,6 +12,9 @@ dotenv.config();
 //connect DataBase
 connectDB();
 
+//req body read middleware
+app.use(express.json());
+
 //routes
 app.use("/api/auth", userRouts)
 
