@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
+import userRouts from "./routes/user.routes.js";
 
 //init app
 const app = express();
@@ -7,10 +8,8 @@ const app = express();
 //configure to access environment file
 dotenv.config();
 
-//test
-app.get("/", (req, res) => {
-    res.send("HELLO")
-})
+//routes
+app.use("/api/auth", userRouts)
 
 
 //server port
