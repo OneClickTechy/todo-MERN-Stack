@@ -1,7 +1,5 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import createToken from "../utils/createToken.js";
 
 export const register = async (req, res) => {
   try {
@@ -83,7 +81,7 @@ export const logout = async (req, res) => {
       httpOnly: true,
       expires: new Date(0),
       secure: process.env.NODE_ENV === "production", // Only set 'secure' in production
-      path: "/"
+      path: "/",
     });
     res.status(200).json({ message: "logout successfully" });
   } catch (error) {
@@ -92,5 +90,14 @@ export const logout = async (req, res) => {
       error: "Server error",
       details: process.env.NODE_ENV === "development" ? error.stack : null,
     });
+  }
+};
+
+export const getme = async (req, res) => {
+  try {
+    // const user = await User.findById(req.user.userId).select("-password");
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 };
