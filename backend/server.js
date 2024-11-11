@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRouts from "./routes/user.routes.js";
+import taskRouts from "./routes/task.routes.js";
 import connectDB from "./config/connectDB.js";
 import cookieParser from "cookie-parser";
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 //routes
 app.use("/api/auth", userRouts);
+app.use("/api/task", taskRouts);
 
 //server port
 const port = process.env.PORT;

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const taskSchema =
-  ({
+const taskSchema = new mongoose.Schema(
+  {
     name: {
       type: String,
       required: true,
@@ -19,11 +19,6 @@ const taskSchema =
       enum: [1, 2, 3, 4],
       default: 4,
     },
-    status: {
-      type: String,
-      enum: ["Pending", "In Progress", "Completed"],
-      default: "Pending",
-    },
     label: {
       type: String,
     },
@@ -39,6 +34,7 @@ const taskSchema =
   },
   {
     timestamps: true,
-  });
+  }
+);
 
 export const Task = mongoose.model("Task", taskSchema);

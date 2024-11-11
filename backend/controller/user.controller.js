@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import createToken from "../utils/createToken.js"
 
 export const register = async (req, res) => {
   try {
