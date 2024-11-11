@@ -55,7 +55,6 @@ export const getSingleTask = async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
     if (task.userId.toString() !== userId.toString()) {
-      
       return res
         .status(403)
         .json({ error: "Access denied. Not authorized to view this task." });
@@ -69,12 +68,12 @@ export const getSingleTask = async (req, res) => {
 export const getUserTasks = async (req, res) => {
   try {
     const { _id: userId } = req.user;
-    
+
     if (!userId) {
       return res.status(404).json({ error: "userId not found" });
     }
     const userTasks = await Task.find({ userId });
-    
+
     res.status(200).json(userTasks);
   } catch (error) {
     console.error(`Error: ${error}`);
@@ -111,12 +110,32 @@ export const updateTask = async (req, res) => {
     }
     const updatedTask = await Task.findByIdAndUpdate(
       id,
-      { name, description, duedate, priority, label, completed, _id },
+      { name, description, duedate, priority, label, completed },
       { new: true }
     );
 
     res.status(200).json(updatedTask);
   } catch (error) {
     res.status(500).json({ error: ` Internal server error: ${error}` });
+  }
+};
+
+export const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id: userId } = req.user;
+    const task = await Task.findById(id);
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+    if (task.userId.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json({ error: "Access denied. Not authorized to update this task." });
+    }
+    await task.deleteOne();
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" + error.message });
   }
 };
