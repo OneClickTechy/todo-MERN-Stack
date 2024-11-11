@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import userRouts from "./routes/user.routes.js";
-import taskRouts from "./routes/task.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import taskRoutes from "./routes/task.routes.js";
 import connectDB from "./config/connectDB.js";
 import cookieParser from "cookie-parser";
 
@@ -21,8 +21,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 //routes
-app.use("/api/auth", userRouts);
-app.use("/api/task", taskRouts);
+app.use("/api/auth", userRoutes);
+app.use("/api/task", taskRoutes);
 
 //server port
 const port = process.env.PORT;
