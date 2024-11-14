@@ -10,9 +10,9 @@ export const createTask = async (req, res) => {
       name,
       description,
       duedate,
-      priority = 4,
-      label = null,
-      completed = false,
+      priority,
+      label,
+      completed,
     } = req.body;
     if (!name || !description || !duedate) {
       return res.status(400).json({ error: "please fill all fields" });
@@ -38,7 +38,8 @@ export const createTask = async (req, res) => {
 
     const savedTask = await newTask.save();
 
-    res.status(201).json(savedTask);
+    res.status(201).json({message: "Task Saved",
+      savedTask});
   } catch (error) {
     res.status(500).json({ error: `Internal server error: ${error.message}` });
   }
