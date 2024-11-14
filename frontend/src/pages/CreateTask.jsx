@@ -21,7 +21,6 @@ const CreateTask = () => {
       ...newTask,
       [e.target.name]: e.target.value,
     });
-    
   };
 
   const handleCreate = async (e) => {
@@ -30,12 +29,9 @@ const CreateTask = () => {
       ...newTask,
       priority: Number(newTask.priority),
     };
-    
+
     try {
       const res = await createTask(task).unwrap();
-      if (res) {
-        console.log(res.message);
-      }
       toast.success(res.message, {
         position: "top-right",
         autoClose: 2000,
@@ -47,18 +43,16 @@ const CreateTask = () => {
         theme: "light",
       });
     } catch (error) {
-      if(error){
-        toast.error(error?.data?.error, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
+      toast.error(error?.data?.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -110,7 +104,7 @@ const CreateTask = () => {
       </div>
 
       <button type="submit">Create</button>
-    <ToastContainer />
+      <ToastContainer />
     </form>
   );
 };
