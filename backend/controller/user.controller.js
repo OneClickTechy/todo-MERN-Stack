@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import createToken from "../utils/createToken.js"
+import createToken from "../utils/createToken.js";
 
 export const register = async (req, res) => {
   try {
@@ -32,14 +32,12 @@ export const register = async (req, res) => {
     createToken(res, user._id);
 
     res.status(201).json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
+      message: "register successfully",
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      error: "Internal server error",
+      error: "Internal server error :" + error,
       details: process.env.NODE_ENV === "development" ? error.stack : null,
     });
   }
@@ -63,14 +61,12 @@ export const login = async (req, res) => {
     }
     createToken(res, user._id);
     res.status(200).json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
+      message: "login successfully",
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      error: "Internal server error",
+      error: "Internal server error :" + error,
       details: process.env.NODE_ENV === "development" ? error.stack : null,
     });
   }
@@ -88,7 +84,7 @@ export const logout = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      error: "Server error",
+      error: "Internal server error :" + error,
       details: process.env.NODE_ENV === "development" ? error.stack : null,
     });
   }
@@ -96,9 +92,18 @@ export const logout = async (req, res) => {
 
 export const getme = async (req, res) => {
   try {
-    // const user = await User.findById(req.user.userId).select("-password");
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
     res.status(200).json(req.user);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error :" + error,
+      details: process.env.NODE_ENV === "development" ? error.stack : null,
+    });
   }
 };

@@ -21,6 +21,7 @@ const taskSchema = new mongoose.Schema(
     },
     label: {
       type: String,
+      default: "",
     },
     completed: {
       type: Boolean,
